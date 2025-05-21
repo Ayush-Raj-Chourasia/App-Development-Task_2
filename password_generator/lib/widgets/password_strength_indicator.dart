@@ -22,22 +22,63 @@ class PasswordStrengthIndicator extends StatelessWidget {
     return 'Very Strong';
   }
 
+  IconData _getStrengthIcon() {
+    if (strength < 0.3) return Icons.warning_rounded;
+    if (strength < 0.6) return Icons.info_outline_rounded;
+    if (strength < 0.8) return Icons.check_circle_outline_rounded;
+    return Icons.verified_rounded;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final strengthColor = _getStrengthColor();
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Password Strength: ${_getStrengthText()}',
-          style: Theme.of(context).textTheme.bodyLarge,
+        Row(
+          children: [
+            Icon(
+              _getStrengthIcon(),
+              color: strengthColor,
+              size: 24,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              'Password Strength',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Spacer(),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 6,
+              ),
+              decoration: BoxDecoration(
+                color: strengthColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                _getStrengthText(),
+                style: TextStyle(
+                  color: strengthColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         ),
-        const SizedBox(height: 8),
-        LinearProgressIndicator(
-          value: strength,
-          backgroundColor: Colors.grey[300],
-          valueColor: AlwaysStoppedAnimation<Color>(_getStrengthColor()),
-          minHeight: 8,
-          borderRadius: BorderRadius.circular(4),
+        const SizedBox(height: 16),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: LinearProgressIndicator(
+            value: strength,
+            backgroundColor: strengthColor.withOpacity(0.2),
+            valueColor: AlwaysStoppedAnimation<Color>(strengthColor),
+            minHeight: 8,
+          ),
         ),
       ],
     );
