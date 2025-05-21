@@ -32,7 +32,7 @@ A secure and customizable password generator app built with Flutter that helps u
 
 1. Clone the repository:
 ```bash
-git clone [https://github.com/Ayush-Raj-Chourasia/App-Development-Task_2.git]
+git clone https://github.com/Ayush-Raj-Chourasia/App-Development-Task_2.git
 cd password_generator
 ```
 
